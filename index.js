@@ -4,95 +4,39 @@ const jsonfile = require('jsonfile')
 const _ = require('lodash')
 const cluster = require('cluster')
 
+const ProcessTeam = require('./routines/ProcessTeam')
+const MergePokemonData = require('./routines/MergePokemonData')
+
 const cores = 8
-const fileMult = 10000
+const fileMult = 1000
 
 let formatData = function(rawData) {
   let formattedData = _.cloneDeep(rawData)
-  Object.keys(formattedData).forEach(function(name) {
+  for(let name in formattedData) {
     let pokemonItem = formattedData[name]
-    Object.keys(pokemonItem['moves']).forEach(function(key) {
+    for(let key in pokemonItem['moves']) {
       pokemonItem['moves'][key] = (pokemonItem['moves'][key]/pokemonItem['count'])
-    })
-    Object.keys(pokemonItem['ability']).forEach(function(key) {
+    }
+    for(let key in pokemonItem['ability']) {
       pokemonItem['ability'][key] = (pokemonItem['ability'][key]/pokemonItem['count'])
-    })
-    Object.keys(pokemonItem['nature']).forEach(function(key) {
+    }
+    for(let key in pokemonItem['nature']) {
       pokemonItem['nature'][key] = (pokemonItem['nature'][key]/pokemonItem['count'])
-    })
-    Object.keys(pokemonItem['item']).forEach(function(key) {
+    }
+    for(let key in pokemonItem['item']) {
       pokemonItem['item'][key] = (pokemonItem['item'][key]/pokemonItem['count'])
-    })
-  })
+    }
+  }
   jsonfile.writeFileSync('output_data/format_data.json', formattedData)
 }
 
-let processTeam = function(team, pokemonData) {
-  for(let i = 0;i<team.length;i++) {
-    let pokemonItem = team[i]
-    if(pokemonData[pokemonItem['species']] == undefined) {
-      pokemonData[pokemonItem['species']] = {
-        moves:{},
-        ability:{},
-        nature:{},
-        item:{},
-        count:0
-      }
-    }
-    pokemonData[pokemonItem['species']]['count']++
-    pokemonItem['moves'].forEach((move)=>{
-      if(pokemonData[pokemonItem['species']]['moves'][move] != undefined) {
-        pokemonData[pokemonItem['species']]['moves'][move]++
-      } else {
-        pokemonData[pokemonItem['species']]['moves'][move] = 1
-      }
-    })
-
-    if(pokemonData[pokemonItem['species']]['ability'][pokemonItem['ability']] != undefined) {
-      pokemonData[pokemonItem['species']]['ability'][pokemonItem['ability']]++
-    } else {
-      pokemonData[pokemonItem['species']]['ability'][pokemonItem['ability']] = 1
-    }
-
-    if(pokemonData[pokemonItem['species']]['nature'][pokemonItem['nature']] != undefined) {
-      pokemonData[pokemonItem['species']]['nature'][pokemonItem['nature']]++
-    } else {
-      pokemonData[pokemonItem['species']]['nature'][pokemonItem['nature']] = 1
-    }
-
-    if(pokemonData[pokemonItem['species']]['item'][pokemonItem['item']] != undefined) {
-      pokemonData[pokemonItem['species']]['item'][pokemonItem['item']]++
-    } else {
-      pokemonData[pokemonItem['species']]['item'][pokemonItem['item']] = 1
-    }
-
-  }
-}
-
 let successCall = function(data, pokemonData) {
-  processTeam(data['p1team'], pokemonData)
-  processTeam(data['p2team'], pokemonData)
+  ProcessTeam(data['p1team'], pokemonData)
+  ProcessTeam(data['p2team'], pokemonData)
 }
 
 let failCall = function(err) {
 
-}
-
-let mergePokemonData = function(dataA, dataB) {
-  for(var key in dataB) {
-    if(dataA.hasOwnProperty(key)) {
-      let pokemonItem = dataB[key]
-      for(var move in pokemonItem.moves) {
-        dataA[key]['moves'][move] += pokemonItem['moves'][move]
-      }
-      dataA[key]['count'] += pokemonItem['count']
-      dataA[key]['item'] += pokemonItem['item']
-      dataA[key]['ability'] += pokemonItem['ability']
-      dataA[key]['nature'] += pokemonItem['nature']
-    } else {
-      dataA[key] = dataB[key]
-    }
-  }
 }
 
 if (cluster.isMaster) {
@@ -114,7 +58,7 @@ if (cluster.isMaster) {
       worker.on('message', function(data) {
         documentsProcessed += data.documentsProcessed
         //Bring pokemon data from worker back in
-        mergePokemonData(pokemonData, data.pokemonData)
+        MergePokemonData(pokemonData, data.pokemonData)
         this.destroy();
       });
 
