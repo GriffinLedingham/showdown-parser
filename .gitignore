@@ -1,0 +1,5 @@
+node_modules/
+output_data/
+working_data/
+.DS_Store
+package-lock.json
