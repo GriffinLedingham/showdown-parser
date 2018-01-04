@@ -1,3 +1,14 @@
+/**
+ *
+ * formatData
+ *
+ * This will output the compiled data into a format like is used
+ * on Smogon for their usage stats reports. Not much happens in here
+ * aside from pulling all the compiled data together and some view
+ * logic for building the ASCII table.
+ *
+ */
+
 module.exports = function(compiledData,rawData,totalLogs) {
   let outputString = ``
   for(let i in compiledData) {
