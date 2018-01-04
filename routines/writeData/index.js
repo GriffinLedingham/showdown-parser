@@ -25,5 +25,11 @@ module.exports = {
       fs.mkdirSync(`${AppConfig.compiledDataDir}`)
     }
     jsonfile.writeFileSync(`${AppConfig.compiledDataDir}${format}-${date}-compiled.json`, data)
+  },
+  formatted: function(format,date,string) {
+    if(!fs.existsSync(`${AppConfig.formattedDataDir}`)) {
+      fs.mkdirSync(`${AppConfig.formattedDataDir}`)
+    }
+    fs.writeFileSync(`${AppConfig.formattedDataDir}${format}-${date}-formatted.txt`, string)
   }
 }

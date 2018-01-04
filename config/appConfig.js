@@ -12,5 +12,8 @@ module.exports = {
   rawDataDir: 'raw/',
 
   // The directory to store the compiled data
-  compiledDataDir: 'compiled/'
+  compiledDataDir: 'compiled/',
+
+  // The directory to store the formatted data
+  formattedDataDir: 'formatted/'
 }

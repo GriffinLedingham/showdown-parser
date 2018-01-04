@@ -58,6 +58,15 @@ module.exports = function(dataA, dataB) {
           dataA[key]['nature'][nature] = pokemonItem['nature'][nature]
         }
       }
+
+      // Iterate all teammates, and merge them into existing data
+      for(let team in pokemonItem.team) {
+        if(dataA[key]['team'].hasOwnProperty(team)) {
+          dataA[key]['team'][team] += pokemonItem['team'][team]
+        } else {
+          dataA[key]['team'][team] = pokemonItem['team'][team]
+        }
+      }
     } else {
       // Simply set the species data from object B to A
       dataA[key] = dataB[key]

@@ -11,22 +11,61 @@
 const jsonfile    = require('jsonfile')
 const _           = require('lodash')
 
-module.exports = function(rawData) {
+module.exports = function(rawData,totalLogs) {
   let compiledData = _.cloneDeep(rawData)
   for(let name in compiledData) {
     let pokemonItem = compiledData[name]
     for(let key in pokemonItem['moves']) {
       pokemonItem['moves'][key] = (pokemonItem['moves'][key]/pokemonItem['count'])
     }
+    pokemonItem['moves'] = Object.keys(pokemonItem['moves']).map(function(key) {
+      return {move:key,usage:pokemonItem['moves'][key]};
+    }).sort(function(a, b){
+      return b.usage-a.usage
+    })
+
     for(let key in pokemonItem['ability']) {
       pokemonItem['ability'][key] = (pokemonItem['ability'][key]/pokemonItem['count'])
     }
+    pokemonItem['ability'] = Object.keys(pokemonItem['ability']).map(function(key) {
+      return {ability:key,usage:pokemonItem['ability'][key]};
+    }).sort(function(a, b){
+      return b.usage-a.usage
+    })
+
     for(let key in pokemonItem['nature']) {
       pokemonItem['nature'][key] = (pokemonItem['nature'][key]/pokemonItem['count'])
     }
+    pokemonItem['nature'] = Object.keys(pokemonItem['nature']).map(function(key) {
+      return {nature:key,usage:pokemonItem['nature'][key]};
+    }).sort(function(a, b){
+      return b.usage-a.usage
+    })
+
     for(let key in pokemonItem['item']) {
       pokemonItem['item'][key] = (pokemonItem['item'][key]/pokemonItem['count'])
     }
+    pokemonItem['item'] = Object.keys(pokemonItem['item']).map(function(key) {
+      return {item:key,usage:pokemonItem['item'][key]};
+    }).sort(function(a, b){
+      return b.usage-a.usage
+    })
+
+    for(let key in pokemonItem['team']) {
+      pokemonItem['team'][key] = ((100*(pokemonItem['team'][key]/pokemonItem['count'])).toFixed(3)-(100*(rawData[key].count/(totalLogs*2))).toFixed(3) )
+    }
+    pokemonItem['team'] = Object.keys(pokemonItem['team']).map(function(key) {
+      return {pokemon:key,usage:pokemonItem['team'][key]};
+    }).sort(function(a, b){
+      return b.usage-a.usage
+    })
+
   }
-  return compiledData
+  return Object.keys(compiledData).map(function(key) {
+    let pokemon = compiledData[key]
+    pokemon.name = key
+    return pokemon
+  }).sort(function(a, b){
+    return b.count-a.count
+  })
 }

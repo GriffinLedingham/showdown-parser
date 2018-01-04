@@ -17,6 +17,7 @@ let incrementAbility  = require('./incrementAbility')
 let incrementNature   = require('./incrementNature')
 let incrementMoves    = require('./incrementMoves')
 let incrementItem     = require('./incrementItem')
+let incrementTeam     = require('./incrementTeam')
 
 module.exports = function(team, pokemonData) {
   for(let i = 0;i<team.length;i++) {
@@ -24,7 +25,7 @@ module.exports = function(team, pokemonData) {
 
     // Lower case the species name, because there are multiple
     // versions of capitalization in the logs
-    let species = pokemonItem['species'].toLowerCase()
+    let species = pokemonItem['species'].toLowerCase().replace(/\-|\s/g,'')
 
     // If this Pokemon hasn't appeared yet, new usage stats entry for it
     if(pokemonData[species] == undefined) {
@@ -45,6 +46,9 @@ module.exports = function(team, pokemonData) {
 
     // Increment Item Usage
     incrementItem(pokemonItem['item'], pokemonData[species])
+
+    // Increment Team Usage
+    incrementTeam(team, species, pokemonData[species])
   }
 }
 
@@ -54,6 +58,7 @@ let initPokemon = function(species, pokemonData) {
     ability:{},
     nature:{},
     item:{},
+    team:{},
     count:0
   }
 }

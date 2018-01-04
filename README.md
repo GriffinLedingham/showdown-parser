@@ -24,4 +24,4 @@ Running the app will provide you with a progress bar, displaying your completion
 
 ## Todo
 
-This is a brand new project, and there is much work to be done. Currently the parser only supports ELO-agnostic usage stats, and does not compute teammate, or EV data.
+This is a brand new project, and there is much work to be done. Currently the parser only supports ELO-agnostic usage stats, and does not yet compute EV data (no real reason, I just haven't gotten to it yet).

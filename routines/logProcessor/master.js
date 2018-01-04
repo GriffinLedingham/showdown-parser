@@ -14,6 +14,7 @@ const WriteData         = require('../writeData')
 const readLogs          = require('../readLogs')
 const mergePokemonData  = require('../mergePokemonData')
 const compileData       = require('../compileData')
+const formatData        = require('../formatData')
 
 const cores             = AppConfig.cores
 
@@ -70,16 +71,20 @@ module.exports = function(format, date, cluster) {
       WriteData.raw(format,date,rawData)
 
       // Compile the raw data into usage stats
-      let compiledData = compileData(rawData)
+      let compiledData = compileData(rawData, filenameCount)
 
-      //Write compiled data to .json
+      // Write compiled data to .json
       WriteData.compiled(format,date,compiledData)
+
+      // Write formatted data to .txt
+      WriteData.formatted(format,date,formatData(compiledData, rawData, filenameCount))
 
       // Print elapsed operation time
       console.log('\n  Time elapsed: ' + ((new Date().getTime() - StartTS)/1000) + ' sec')
       console.log('  Logs Processed: ' + filenameCount)
       console.log('  Raw data written to: ' + `\n      ${AppConfig.rawDataDir}${format}-${date}-raw.json`)
       console.log('  Compiled data written to: ' + `\n      ${AppConfig.compiledDataDir}${format}-${date}-compiled.json`)
+      console.log('  Formatted data written to: ' + `\n      ${AppConfig.formattedDataDir}${format}-${date}-formatted.txt`)
       // Kill the master thread
       process.exit(1)
     }
