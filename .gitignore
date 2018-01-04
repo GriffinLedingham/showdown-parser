@@ -1,5 +1,5 @@
 node_modules/
-output_data/
-working_data/
+compiled/
+raw/
 .DS_Store
 package-lock.json

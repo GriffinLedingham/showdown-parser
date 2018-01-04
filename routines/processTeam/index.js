@@ -1,7 +1,30 @@
+/**
+ *
+ * processTeam
+ *
+ * Iterate over provided team from a log file. This
+ * function is called from a LogProcessor worker,
+ * and is expected to write its data to the worker's
+ * master data object
+ *
+ * Currently this only handles moves, abilities, items,
+ * and natures. This is where teammate data will be processed
+ * in future, as well as ev's
+ *
+ */
+
+let incrementAbility  = require('./incrementAbility')
+let incrementNature   = require('./incrementNature')
+let incrementMoves    = require('./incrementMoves')
+let incrementItem     = require('./incrementItem')
+
 module.exports = function(team, pokemonData) {
   for(let i = 0;i<team.length;i++) {
     let pokemonItem = team[i]
-    let species = pokemonItem['species']
+
+    // Lower case the species name, because there are multiple
+    // versions of capitalization in the logs
+    let species = pokemonItem['species'].toLowerCase()
 
     // If this Pokemon hasn't appeared yet, new usage stats entry for it
     if(pokemonData[species] == undefined) {
@@ -32,39 +55,5 @@ let initPokemon = function(species, pokemonData) {
     nature:{},
     item:{},
     count:0
-  }
-}
-
-let incrementMoves = function(moves, pokemonData) {
-  moves.forEach((move)=>{
-    if(pokemonData['moves'][move] != undefined) {
-      pokemonData['moves'][move]++
-    } else {
-      pokemonData['moves'][move] = 1
-    }
-  })
-}
-
-let incrementAbility = function(ability, pokemonData) {
-  if(pokemonData['ability'][ability] != undefined) {
-    pokemonData['ability'][ability]++
-  } else {
-    pokemonData['ability'][ability] = 1
-  }
-}
-
-let incrementNature = function(nature, pokemonData) {
-  if(pokemonData['nature'][nature] != undefined) {
-    pokemonData['nature'][nature]++
-  } else {
-    pokemonData['nature'][nature] = 1
-  }
-}
-
-let incrementItem = function(item, pokemonData) {
-  if(pokemonData['item'][item] != undefined) {
-    pokemonData['item'][item]++
-  } else {
-    pokemonData['item'][item] = 1
   }
 }
