@@ -20,7 +20,7 @@ const cores             = AppConfig.cores
 module.exports = function(format, date, cluster) {
   // Get all filenames to be parsed
   let filenames = readLogs(format, date)
-
+  let filenameCount = filenames.length
   // Init progress bar
   let bar = new ProgressBar(filenames.length)
 
@@ -76,8 +76,10 @@ module.exports = function(format, date, cluster) {
       WriteData.compiled(format,date,compiledData)
 
       // Print elapsed operation time
-      console.log('\nTime elapsed: ' + ((new Date().getTime() - StartTS)/1000) + ' sec')
-
+      console.log('\n  Time elapsed: ' + ((new Date().getTime() - StartTS)/1000) + ' sec')
+      console.log('  Logs Processed: ' + filenameCount)
+      console.log('  Raw data written to: ' + `\n      ${AppConfig.rawDataDir}${format}-${date}-raw.json`)
+      console.log('  Compiled data written to: ' + `\n      ${AppConfig.compiledDataDir}${format}-${date}-compiled.json`)
       // Kill the master thread
       process.exit(1)
     }

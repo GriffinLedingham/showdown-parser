@@ -10,13 +10,20 @@
  *
  */
 
-const jsonfile = require('jsonfile')
+const jsonfile  = require('jsonfile')
+const fs        = require('fs')
 
 module.exports = {
   raw: function(format,date,data) {
+    if(!fs.existsSync(`${AppConfig.rawDataDir}`)) {
+      fs.mkdirSync(`${AppConfig.rawDataDir}`)
+    }
     jsonfile.writeFileSync(`${AppConfig.rawDataDir}${format}-${date}-raw.json`, data)
   },
   compiled: function(format,date,data) {
+    if(!fs.existsSync(`${AppConfig.compiledDataDir}`)) {
+      fs.mkdirSync(`${AppConfig.compiledDataDir}`)
+    }
     jsonfile.writeFileSync(`${AppConfig.compiledDataDir}${format}-${date}-compiled.json`, data)
   }
 }
