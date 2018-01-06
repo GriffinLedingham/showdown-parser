@@ -18,10 +18,13 @@ const formatData        = require('../formatData')
 
 const cores             = AppConfig.cores
 
-module.exports = function(format, date, cluster) {
+module.exports = function(format, date, cutoff, output, cluster) {
   // Get all filenames to be parsed
   let filenames = readLogs(format, date)
-  let filenameCount = filenames.length
+
+  // Weighted total team count of all teams
+  let teamCount = 0
+
   // Init progress bar
   let bar = new ProgressBar(filenames.length)
 
@@ -49,6 +52,9 @@ module.exports = function(format, date, cluster) {
         // Add completed raw data to queue for stitching
         dataQueue.push(workerData.data)
 
+        // Add weighted team count to total
+        teamCount += workerData.teamCount
+
         //Kill worker thread
         this.destroy();
       }
@@ -59,7 +65,7 @@ module.exports = function(format, date, cluster) {
     })
 
     // Dispatch the filenames for this worker to process
-    worker.send({filenames:chunks[t]})
+    worker.send({filenames:chunks[t], cutoff:cutoff})
   }
 
   cluster.on('exit', function(worker) {
@@ -68,20 +74,27 @@ module.exports = function(format, date, cluster) {
       let rawData = dataQueue.stitchData(mergePokemonData)
 
       // Write raw data to .json
-      WriteData.raw(format,date,rawData)
+      WriteData.raw(format,date,cutoff,rawData)
 
       // Compile the raw data into usage stats
-      let compiledData = compileData(rawData, filenameCount)
+      let compiledData = compileData(rawData, teamCount)
 
       // Write compiled data to .json
-      WriteData.compiled(format,date,compiledData)
+      WriteData.compiled(format,date,cutoff,compiledData)
 
-      // Write formatted data to .txt
-      WriteData.formatted(format,date,formatData(compiledData, rawData, filenameCount))
+      switch(output) {
+        case 'usage':
+          // Write formatted data to .txt
+          WriteData.formatted(format,date,cutoff,formatData(compiledData, rawData))
+          break;
+        case 'json':
+          WriteData.json(format,date,cutoff,formatJSON(compiledData, rawData))
+          break;
+      }
 
       // Print elapsed operation time
       console.log('\n  Time elapsed: ' + ((new Date().getTime() - StartTS)/1000) + ' sec')
-      console.log('  Logs Processed: ' + filenameCount)
+      console.log('  Teams Processed: ' + teamCount)
       console.log('  Raw data written to: ' + `\n      ${AppConfig.rawDataDir}${format}-${date}-raw.json`)
       console.log('  Compiled data written to: ' + `\n      ${AppConfig.compiledDataDir}${format}-${date}-compiled.json`)
       console.log('  Formatted data written to: ' + `\n      ${AppConfig.formattedDataDir}${format}-${date}-formatted.txt`)

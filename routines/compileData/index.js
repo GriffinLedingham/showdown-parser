@@ -11,10 +11,16 @@
 const jsonfile    = require('jsonfile')
 const _           = require('lodash')
 
-module.exports = function(rawData,totalLogs) {
+module.exports = function(rawData,teamCount) {
   let compiledData = _.cloneDeep(rawData)
   for(let name in compiledData) {
     let pokemonItem = compiledData[name]
+    let totalWeight = 0
+    for(let key in pokemonItem['avg_weight']) {
+      totalWeight += pokemonItem['avg_weight'][key]
+    }
+    pokemonItem['avg_weight'] = totalWeight/pokemonItem['avg_weight'].length
+    pokemonItem['viability'] = Math.round(pokemonItem['viability']/AppConfig.cores)
     for(let key in pokemonItem['moves']) {
       pokemonItem['moves'][key] = (pokemonItem['moves'][key]/pokemonItem['count'])
     }
@@ -52,7 +58,14 @@ module.exports = function(rawData,totalLogs) {
     })
 
     for(let key in pokemonItem['team']) {
-      pokemonItem['team'][key] = ((100*(pokemonItem['team'][key]/pokemonItem['count'])).toFixed(3)-(100*(rawData[key].count/(totalLogs*2))).toFixed(3) )
+      pokemonItem['team'][key] = (
+        (100*(
+          pokemonItem['team'][key]/pokemonItem['count']
+        )).toFixed(3)
+        -
+        (100*(
+          rawData[key].count/teamCount
+        )).toFixed(3) )
     }
     pokemonItem['team'] = Object.keys(pokemonItem['team']).map(function(key) {
       return {pokemon:key,usage:pokemonItem['team'][key]};

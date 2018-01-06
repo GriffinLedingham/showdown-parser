@@ -13,13 +13,18 @@
  *
  */
 
+let victoryChanceGXE  = require('./victoryChanceGXE')
 let incrementAbility  = require('./incrementAbility')
 let incrementNature   = require('./incrementNature')
 let incrementMoves    = require('./incrementMoves')
 let incrementItem     = require('./incrementItem')
 let incrementTeam     = require('./incrementTeam')
+let calculateWeight   = require('./calculateWeight')
 
-module.exports = function(team, pokemonData) {
+module.exports = function(team, pokemonData, rating, cutoff, outcome) {
+  // Calculate the pokemon's weighting based on player rating
+  let weight = calculateWeight(rating, cutoff, outcome)
+
   for(let i = 0;i<team.length;i++) {
     let pokemonItem = team[i]
 
@@ -32,24 +37,43 @@ module.exports = function(team, pokemonData) {
       initPokemon(species, pokemonData)
     }
 
+    // Calculate the pokemon's GXE to see if it's a new high
+    if(rating != undefined && rating.hasOwnProperty('rpr') && rating.hasOwnProperty('rprd')) {
+      // Get the GXE for this trainer during current battle
+      let gxe = Math.round(100*victoryChanceGXE(rating['rpr'], rating['rprd']))
+
+      // If GXE is greater than pokemon's highest overwrite
+      if(gxe > pokemonData[species]['viability']) {
+        pokemonData[species]['viability'] = gxe
+      }
+    }
+
     // Increment total count of species
-    pokemonData[species]['count']++
+    pokemonData[species]['count'] += weight
+
+    // Increment total raw count of species
+    pokemonData[species]['raw_count']++
+
+    // Add the team weight to be averaged for this pokemon
+    pokemonData[species]['avg_weight'].push(weight)
 
     // Increment Moves Usage
-    incrementMoves(pokemonItem['moves'], pokemonData[species])
+    incrementMoves(pokemonItem['moves'], pokemonData[species], weight)
 
     // Increment Ability Usage
-    incrementAbility(pokemonItem['ability'], pokemonData[species])
+    incrementAbility(pokemonItem['ability'], pokemonData[species], weight)
 
-    // Increment Nature Usage
-    incrementNature(pokemonItem['nature'], pokemonData[species])
+    // Increment Nature/EV Usage
+    incrementNature(pokemonItem['nature'], pokemonItem['evs'], pokemonData[species], weight)
 
     // Increment Item Usage
-    incrementItem(pokemonItem['item'], pokemonData[species])
+    incrementItem(pokemonItem['item'], pokemonData[species], weight)
 
     // Increment Team Usage
-    incrementTeam(team, species, pokemonData[species])
+    incrementTeam(team, species, pokemonData[species], weight)
   }
+
+  return weight
 }
 
 let initPokemon = function(species, pokemonData) {
@@ -59,6 +83,9 @@ let initPokemon = function(species, pokemonData) {
     nature:{},
     item:{},
     team:{},
+    avg_weight: [],
+    viability: 0,
+    raw_count: 0,
     count:0
   }
 }

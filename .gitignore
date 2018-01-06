@@ -4,3 +4,4 @@ raw/
 .DS_Store
 package-lock.json
 formatted/
+json/

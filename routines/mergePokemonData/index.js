@@ -23,6 +23,16 @@ module.exports = function(dataA, dataB) {
       // Increment the total count of this species in this log set
       dataA[key]['count'] += pokemonItem['count']
 
+      // Increment the total raw count of this species in this log set
+      dataA[key]['raw_count'] += pokemonItem['raw_count']
+
+      // Increment the viability value, this will need to be divided
+      // by core count in compileData
+      dataA[key]['viability'] += dataB[key]['viability']
+
+      // Combine the avg_weight arrays
+      dataA[key]['avg_weight'] = dataA[key]['avg_weight'].concat(dataB[key]['avg_weight'])
+
       // Iterate all moves, and merge them into existing data
       for(let move in pokemonItem.moves) {
         if(dataA[key]['moves'].hasOwnProperty(move)) {

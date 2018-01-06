@@ -11,14 +11,51 @@ const cluster         = require('cluster')
 const config          = require('./config')
 const utils           = require('./utils')
 
+const WriteData       = require('./routines/writeData')
+const LoadData        = require('./routines/loadData')
 const LogProcessor    = require('./routines/logProcessor')
-const [format, date]  = args
 
-// Main threading split occurs here. The initial running thread
-// will get master status, and spawn workers for each core the
-// app is being provided.
-if (cluster.isMaster) {
-  LogProcessor.doMasterThread(format,date,cluster)
-} else {
-  LogProcessor.doWorkerThread(cluster)
+const formatData      = require('./routines/formatData')
+const formatJSON      = require('./routines/formatJSON')
+const [format, date, cutoff, output, skipLogs]  = args
+
+if(skipLogs) {
+  // Skip parsing logs, require the compiled data set to build
+  // an output
+  switch(output) {
+    case 'usage':
+      // Write formatted data to .txt
+      WriteData.formatted(
+        format,
+        date,
+        cutoff,
+        formatData(
+          LoadData.compiled(format,date,cutoff),
+          LoadData.raw(format,date,cutoff)
+        )
+      )
+      break
+    case 'json':
+      // Write formatted data to .json
+      WriteData.JSON(
+        format,
+        date,
+        cutoff,
+        formatJSON(
+          LoadData.compiled(format,date,cutoff),
+          LoadData.raw(format,date,cutoff)
+        )
+      )
+      break
+  }
+}
+else {
+  // Main threading split occurs here. The initial running thread
+  // will get master status, and spawn workers for each core the
+  // app is being provided.
+  if (cluster.isMaster) {
+    LogProcessor.doMasterThread(format,date,cutoff,output,cluster)
+  } else {
+    LogProcessor.doWorkerThread(cluster)
+  }
 }

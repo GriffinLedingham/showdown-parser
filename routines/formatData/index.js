@@ -9,39 +9,59 @@
  *
  */
 
-module.exports = function(compiledData,rawData,totalLogs) {
+// This expects Pokemon-Showdown to be cloned at the directory below
+// https://github.com/Zarel/Pokemon-Showdown
+const Dex = require('../../../Pokemon-Showdown/sim/dex')
+
+module.exports = function(compiledData,rawData) {
   let outputString = ``
   for(let i in compiledData) {
     let pokemon = compiledData[i]
     outputString += '+----------------------------------------+ ' + '\n'
-    outputString += '| '+padString(pokemon.name,39)+'| ' + '\n'
+    outputString += '| '+padString(Dex.getSpecies(pokemon.name),39)+'| ' + '\n'
     outputString += '+----------------------------------------+ ' + '\n'
-    outputString += '| '+padString('Raw count: ' + pokemon.count,39)+'| ' + '\n'
-    outputString += '| '+padString('Avg. weight: 1.0',39)+'| ' + '\n'
-    outputString += '| '+padString('Viability Ceiling: 100',39)+'| ' + '\n'
+    outputString += '| '+padString('Raw count: ' + pokemon.raw_count,39)+'| ' + '\n'
+    outputString += '| '+padString('Avg. weight: ' + pokemon.avg_weight,39)+'| ' + '\n'
+    outputString += '| '+padString('Viability Ceiling: ' + pokemon.viability,39)+'| ' + '\n'
     outputString += '+----------------------------------------+ ' + '\n'
     outputString += '| '+padString('Abilities',39)+'| ' + '\n'
-    for(let j = 0;j<10;j++) {
+    let j = 0
+    while(pokemon.ability.hasOwnProperty(j)) {
       if(pokemon.ability[j] == undefined) break
       outputString += '| '+padString(pokemon.ability[j].ability + ' ' + (100*(pokemon.ability[j].usage)).toFixed(3) + '%',39)+'| ' + '\n'
+      j++
     }
     outputString += '+----------------------------------------+ ' + '\n'
     outputString += '| '+padString('Items',39)+'| ' + '\n'
-    for(let j = 0;j<10;j++) {
+    j = 0
+    while(pokemon.item.hasOwnProperty(j) && (100*(pokemon.item[j].usage)) > 1) {
       if(pokemon.item[j] == undefined) break
-      outputString += '| '+padString(pokemon.item[j].item + ' ' + (100*(pokemon.item[j].usage)).toFixed(3) + '%',39)+'| ' + '\n'
+      outputString += '| '+padString(Dex.getItem(pokemon.item[j].item) + ' ' + (100*(pokemon.item[j].usage)).toFixed(3) + '%',39)+'| ' + '\n'
+      j++
+    }
+    outputString += '+----------------------------------------+ ' + '\n'
+    outputString += '| '+padString('Spreads',39)+'| ' + '\n'
+    j = 0
+    while(pokemon.nature.hasOwnProperty(j) && (100*(pokemon.nature[j].usage)) > 1) {
+      if(pokemon.nature[j] == undefined) break
+      outputString += '| '+padString(pokemon.nature[j].nature + ' ' + (100*(pokemon.nature[j].usage)).toFixed(3) + '%',39)+'| ' + '\n'
+      j++
     }
     outputString += '+----------------------------------------+ ' + '\n'
     outputString += '| '+padString('Moves',39)+'| ' + '\n'
-    for(let j = 0;j<10;j++) {
+    j = 0
+    while(pokemon.moves.hasOwnProperty(j) && (100*(pokemon.moves[j].usage)) > 1) {
       if(pokemon.moves[j] == undefined) break
-      outputString += '| '+padString(pokemon.moves[j].move + ' ' + (100*(pokemon.moves[j].usage)).toFixed(3) + '%',39)+'| ' + '\n'
+      outputString += '| '+padString(Dex.getMove(pokemon.moves[j].move) + ' ' + (100*(pokemon.moves[j].usage)).toFixed(3) + '%',39)+'| ' + '\n'
+      j++
     }
     outputString += '+----------------------------------------+ ' + '\n'
     outputString += '| '+padString('Teammates',39)+'| ' + '\n'
-    for(let j = 0;j<10;j++) {
+    j = 0
+    while(pokemon.team.hasOwnProperty(j) && (pokemon.team[j].usage) > 1) {
       if(pokemon.team[j] == undefined) break
-      outputString += '| '+padString(pokemon.team[j].pokemon + ' ' + pokemon.team[j].usage.toFixed(3) + '%',39)+'| ' + '\n'
+      outputString += '| '+padString(Dex.getSpecies(pokemon.team[j].pokemon) + ' ' + pokemon.team[j].usage.toFixed(3) + '%',39)+'| ' + '\n'
+      j++
     }
     outputString += '+----------------------------------------+ ' + '\n'
     outputString += '| '+padString('Checks and Counters',39)+'| ' + '\n'

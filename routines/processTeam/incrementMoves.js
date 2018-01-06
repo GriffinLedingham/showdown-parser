@@ -7,12 +7,12 @@
  *
  */
 
-module.exports = function(moves, pokemonData) {
+module.exports = function(moves, pokemonData, weight) {
   moves.forEach((move)=>{
     if(pokemonData['moves'][move] != undefined) {
-      pokemonData['moves'][move]++
+      pokemonData['moves'][move] += weight
     } else {
-      pokemonData['moves'][move] = 1
+      pokemonData['moves'][move] = weight
     }
   })
 }

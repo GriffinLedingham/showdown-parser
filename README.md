@@ -12,16 +12,22 @@ A Node.js parser for raw [Pokemon Showdown](https://github.com/Zarel/Pokemon-Sho
 
 ## Usage
 
-* `node index -f <format> -d <date>`
+* `node index -f <format> -d <date> -c <cutoff> -o <type> [--no-logs]`
 
-`format` should be formatted as `gen7vgc2017`, and `date` as `2017-10`.
+`format` should be formatted as `gen7vgc2017`, `date` as `2017-10`, `cutoff` as `1760` and `type` as `usage|json`. The `--no-logs` flag will keep the parser from re-parsing the logs data, but rather just build a formatted .txt or .json from the compiled data existing in the appropriate directory.
 
 The path to your Logs directory resides in [appConfig.js](https://github.com/GriffinLedingham/showdown-parser/blob/master/config/appConfig.js) so you will need to configure your environment appropriately.
 
 In [appConfig.js](https://github.com/GriffinLedingham/showdown-parser/blob/master/config/appConfig.js) you will also find a field `cores`. This must be modified to provide how many CPU-cores you would like to utilize for log parsing. Using a number greater than your computer's core count will provide no benefit, and even a potential performance-hit. Using less than your maximum cores, however, is perfectly acceptable.
 
-Running the app will provide you with a progress bar, displaying your completion and your logs being parsed per second. Once this has completed, the logs will be dumped into their appropriate folders (`raw/`, `compiled/`).
+Running the app will provide you with a progress bar, displaying your completion and your logs being parsed per second. Once this has completed, the logs will be dumped into their appropriate folders (`raw/`, `compiled/`, `formatted/`, `json/`).
 
-## Todo
+## Features
 
-This is a brand new project, and there is much work to be done. Currently the parser only supports ELO-agnostic usage stats, and does not yet compute EV data (no real reason, I just haven't gotten to it yet).
+This parser will currently output moveset data in .txt format, matching the data found [here](http://www.smogon.com/stats/2017-10/moveset/gen7vgc2017-1760.txt).
+
+Optionally, the parser will output .json matching the format of Smogon's chaos data found [here](http://www.smogon.com/stats/2017-10/chaos/gen7vgc2017-1760.json).
+
+## Issues
+
+Due to limitations of JavaScript, floating point calculations behave slightly different versus Antar's original Python implementation. Therefore, the weighting calculations on cutoff data will differ from Smogon's usage stat data by 0.01-0.1% reported. This is a fairly insignificant difference, but the issue does exist.

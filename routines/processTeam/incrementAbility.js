@@ -7,10 +7,10 @@
  *
  */
 
-module.exports = function(ability, pokemonData) {
+module.exports = function(ability, pokemonData, weight) {
   if(pokemonData['ability'][ability] != undefined) {
-    pokemonData['ability'][ability]++
+    pokemonData['ability'][ability] += weight
   } else {
-    pokemonData['ability'][ability] = 1
+    pokemonData['ability'][ability] = 1*weight
   }
 }

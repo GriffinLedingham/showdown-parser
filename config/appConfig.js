@@ -15,5 +15,8 @@ module.exports = {
   compiledDataDir: 'compiled/',
 
   // The directory to store the formatted data
-  formattedDataDir: 'formatted/'
+  formattedDataDir: 'formatted/',
+
+  // The directory to store the formatted JSON data
+  JSONDataDir: 'json/'
 }
