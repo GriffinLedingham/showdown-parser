@@ -30,4 +30,4 @@ Optionally, the parser will output .json matching the format of Smogon's chaos d
 
 ## Issues
 
-Due to limitations of JavaScript, floating point calculations behave slightly different versus Antar's original Python implementation. Therefore, the weighting calculations on cutoff data will differ from Smogon's usage stat data by 0.01-0.1% reported. This is a fairly insignificant difference, but the issue does exist.
+Due to limitations of floating point arithmetic, floating point calculations behave slightly different versus Antar's original Python implementation. Therefore, the weighting calculations on cutoff data will differ from Smogon's usage stat data by 0.01-0.1% reported. This is a fairly insignificant difference, but the issue does exist.
