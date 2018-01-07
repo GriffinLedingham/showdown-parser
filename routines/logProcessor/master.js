@@ -16,7 +16,7 @@ const mergePokemonData  = require('../mergePokemonData')
 const compileData       = require('../compileData')
 const formatData        = require('../formatData')
 
-const cores             = AppConfig.cores
+const threads           = AppConfig.threads
 
 module.exports = function(format, date, cutoff, output, cluster) {
   // Get all filenames to be parsed
@@ -30,8 +30,8 @@ module.exports = function(format, date, cutoff, output, cluster) {
 
   // Break up the files for each available thread
   let chunks = [filenames]
-  if(cores > 1) {
-    chunks = chunkArray(filenames,Math.ceil(filenames.length/cores))
+  if(threads > 1) {
+    chunks = chunkArray(filenames,Math.ceil(filenames.length/threads))
   }
 
   // Start the timer after filename processing is completed
@@ -40,8 +40,8 @@ module.exports = function(format, date, cutoff, output, cluster) {
   // Init the queue to be used for assembling data
   let dataQueue = new DataQueue()
 
-  // Iterate all cores we want to send a worker to
-  for (var t = 0; t < cores; t++) {
+  // Iterate all threads we want to send a worker to
+  for (var t = 0; t < threads; t++) {
     // Create new process for log processing
     var worker = cluster.fork()
 

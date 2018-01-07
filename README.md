@@ -18,7 +18,7 @@ A Node.js parser for raw [Pokemon Showdown](https://github.com/Zarel/Pokemon-Sho
 
 The path to your Logs directory resides in [appConfig.js](https://github.com/GriffinLedingham/showdown-parser/blob/master/config/appConfig.js) so you will need to configure your environment appropriately.
 
-In [appConfig.js](https://github.com/GriffinLedingham/showdown-parser/blob/master/config/appConfig.js) you will also find a field `cores`. This must be modified to provide how many CPU-cores you would like to utilize for log parsing. Using a number greater than your computer's core count will provide no benefit, and even a potential performance-hit. Using less than your maximum cores, however, is perfectly acceptable.
+In [appConfig.js](https://github.com/GriffinLedingham/showdown-parser/blob/master/config/appConfig.js) you will also find a field `threads`. This must be modified to provide how many CPU-threads you would like to utilize for log parsing. This number will need to be tuned based on your hardware performance, as well as the data-size. Data sets may grow too large to parse all information in a low thread count without hitting an OOM error. In this case, bump up your parallel thread count so that Node will use a greater # of standalone processes to handle the large memory requirements.
 
 Running the app will provide you with a progress bar, displaying your completion and your logs being parsed per second. Once this has completed, the logs will be dumped into their appropriate folders (`raw/`, `compiled/`, `formatted/`, `json/`).
 

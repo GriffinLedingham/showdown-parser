@@ -17,6 +17,8 @@ module.exports = function(compiledData,rawData) {
   for(let i in compiledData) {
     let pokemon = compiledData[i]
     let pokemonName = Dex.getSpecies(pokemon.name)
+    if(FormatConfig.pokemonExclude.indexOf(pokemonName) != -1)
+      continue
 
     outputJSON[pokemonName] = {
       'Abilities':{},
@@ -24,7 +26,10 @@ module.exports = function(compiledData,rawData) {
       'Teammates':{},
       'Items':{},
       'Spreads':{},
-      'Raw count': pokemon.raw_count
+      'Raw count': pokemon.raw_count,
+      'Usage %': pokemon.usage_per,
+      'Rank': (parseInt(i)+1),
+      'viability': pokemon.viability
     }
 
     let j = 0
@@ -37,7 +42,7 @@ module.exports = function(compiledData,rawData) {
     j = 0
     while(pokemon.item.hasOwnProperty(j) && (100*(pokemon.item[j].usage)) > 1) {
       if(pokemon.item[j] == undefined) break
-      outputJSON[pokemonName]['Items'][pokemon.item[j].item] = (100*(pokemon.item[j].usage)).toFixed(3)
+      outputJSON[pokemonName]['Items'][Dex.getItem(pokemon.item[j].item)] = (100*(pokemon.item[j].usage)).toFixed(3)
       j++
     }
 

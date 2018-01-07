@@ -20,7 +20,7 @@ module.exports = function(rawData,teamCount) {
       totalWeight += pokemonItem['avg_weight'][key]
     }
     pokemonItem['avg_weight'] = totalWeight/pokemonItem['avg_weight'].length
-    pokemonItem['viability'] = Math.round(pokemonItem['viability']/AppConfig.cores)
+    pokemonItem['viability'] = Math.round(pokemonItem['viability']/AppConfig.threads)
     for(let key in pokemonItem['moves']) {
       pokemonItem['moves'][key] = (pokemonItem['moves'][key]/pokemonItem['count'])
     }
@@ -73,6 +73,7 @@ module.exports = function(rawData,teamCount) {
       return b.usage-a.usage
     })
 
+    pokemonItem['usage_per'] = 100*(pokemonItem['count']/teamCount)
   }
   return Object.keys(compiledData).map(function(key) {
     let pokemon = compiledData[key]
