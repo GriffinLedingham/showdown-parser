@@ -17,7 +17,11 @@ module.exports = function(compiledData,rawData) {
   for(let i in compiledData) {
     let pokemon = compiledData[i]
     let pokemonName = Dex.getSpecies(pokemon.name)
+
     if(FormatConfig.pokemonExclude.indexOf(pokemonName) != -1)
+      continue
+
+    if(outputJSON[pokemonName] != undefined)
       continue
 
     outputJSON[pokemonName] = {
