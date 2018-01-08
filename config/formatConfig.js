@@ -1,6 +1,39 @@
 module.exports = {
-  // This is to be used to prune invalid Pokemon showing up in logs
-  // I don't *think* too many Araquanid-Totems are running around
-  // VGC18 right now :)
-  'pokemonExclude':['Araquanid-Totem','Gastrodon-East']
+  // This is to be used to squash Pokemon forms
+  'pokemonForm':['-Totem',
+    '-East',
+    '-Dusk',
+    '-Blue-Striped',
+    '-Modern',
+    '-Orange',
+    '-Blue',
+    '-Polar',
+    '-Marine',
+    '-Winter',
+    '-White',
+    '-Orange',
+    '-Blue',
+    '-Green',
+    '-Autumn',
+    '-Summer',
+    '-Elegant',
+    '-Yellow',
+    '-Savanna',
+    '-Tundra',
+    '-Garden',
+    '-Monsoon',
+    '-Indigo',
+    '-River',
+    '-Original',
+    '-Ocean',
+    '-Icysnow',
+    '-Unova',
+    '-Archipelago',
+    '-Partner',
+    '-Kalos',
+    '-Violet',
+    '-Hoenn',
+    '-Dusk-Mane',
+    '-Sinnoh',
+    '-Sun']
 }

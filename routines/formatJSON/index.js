@@ -10,16 +10,12 @@
 
 // This expects Pokemon-Showdown to be cloned at the directory below
 // https://github.com/Zarel/Pokemon-Showdown
-const Dex = require('../../../Pokemon-Showdown/sim/dex')
 
 module.exports = function(compiledData,rawData) {
   let outputJSON = {}
   for(let i in compiledData) {
     let pokemon = compiledData[i]
     let pokemonName = Dex.getSpecies(pokemon.name)
-
-    if(FormatConfig.pokemonExclude.indexOf(pokemonName) != -1)
-      continue
 
     if(outputJSON[pokemonName] != undefined)
       continue

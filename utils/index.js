@@ -4,6 +4,7 @@ module.exports = function() {
   global.DataQueue    = require('./dataQueue')
 
   // Functions
-  global.chunkArray = require('./chunkArray')
-  global.args       = require('./args')
+  global.chunkArray   = require('./chunkArray')
+  global.args         = require('./args')
+  global.pokemonForm  = require('./pokemonForm')
 }()

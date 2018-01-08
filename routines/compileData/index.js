@@ -58,14 +58,18 @@ module.exports = function(rawData,teamCount) {
     })
 
     for(let key in pokemonItem['team']) {
+      let origKey = key
+      key = pokemonForm(Dex.getSpecies(key))
       pokemonItem['team'][key] = (
         (100*(
-          pokemonItem['team'][key]/pokemonItem['count']
+          pokemonItem['team'][origKey]/pokemonItem['count']
         )).toFixed(3)
         -
         (100*(
           rawData[key].count/teamCount
         )).toFixed(3) )
+      if(origKey != key)
+        delete pokemonItem['team'][origKey]
     }
     pokemonItem['team'] = Object.keys(pokemonItem['team']).map(function(key) {
       return {pokemon:key,usage:pokemonItem['team'][key]};
