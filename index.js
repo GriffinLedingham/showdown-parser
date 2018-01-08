@@ -11,6 +11,8 @@ const cluster         = require('cluster')
 const config          = require('./config')
 const utils           = require('./utils')
 
+global.Dex            = require('../Pokemon-Showdown/sim/dex')
+
 const WriteData       = require('./routines/writeData')
 const LoadData        = require('./routines/loadData')
 const UsageProcessor  = require('./routines/usageProcessor')

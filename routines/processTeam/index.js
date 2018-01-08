@@ -29,8 +29,9 @@ module.exports = function(team, pokemonData, rating, cutoff, outcome) {
     let pokemonItem = team[i]
 
     // Lower case the species name, because there are multiple
-    // versions of capitalization in the logs
-    let species = pokemonItem['species'].toLowerCase().replace(/\-|\s/g,'')
+    // versions of capitalization in the logs. Also call
+    // pokemonForm on the name to strip form tags & squash data.
+    let species = pokemonForm(Dex.getSpecies(pokemonItem['species'].toLowerCase().replace(/\-|\s/g,'')))
 
     // If this Pokemon hasn't appeared yet, new usage stats entry for it
     if(pokemonData[species] == undefined) {
