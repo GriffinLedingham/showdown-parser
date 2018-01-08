@@ -1,6 +1,6 @@
 /**
  *
- * logProcessor
+ * matchupProcessor
  *
  * The main log parser logic, split up between a master
  * thread, and multi-threaded children to split work of

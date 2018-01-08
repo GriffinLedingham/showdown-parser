@@ -13,7 +13,8 @@ const utils           = require('./utils')
 
 const WriteData       = require('./routines/writeData')
 const LoadData        = require('./routines/loadData')
-const LogProcessor    = require('./routines/logProcessor')
+const UsageProcessor  = require('./routines/usageProcessor')
+const MatchupProcessor  = require('./routines/matchupProcessor')
 
 const formatData      = require('./routines/formatData')
 const formatJSON      = require('./routines/formatJSON')
@@ -48,14 +49,22 @@ if(skipLogs) {
       )
       break
   }
-}
-else {
+} else if(output == 'matchup') {
   // Main threading split occurs here. The initial running thread
   // will get master status, and spawn workers for each core the
   // app is being provided.
   if (cluster.isMaster) {
-    LogProcessor.doMasterThread(format,date,cutoff,output,cluster)
+    MatchupProcessor.doMasterThread(format,date,cutoff,cluster)
   } else {
-    LogProcessor.doWorkerThread(cluster)
+    MatchupProcessor.doWorkerThread(cluster)
+  }
+} else {
+  // Main threading split occurs here. The initial running thread
+  // will get master status, and spawn workers for each core the
+  // app is being provided.
+  if (cluster.isMaster) {
+    UsageProcessor.doMasterThread(format,date,cutoff,output,cluster)
+  } else {
+    UsageProcessor.doWorkerThread(cluster)
   }
 }

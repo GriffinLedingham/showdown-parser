@@ -21,7 +21,7 @@ class DataQueue {
     let result = {}
     let queueLength = this.getCount()
     for(let i = 0;i<queueLength;i++) {
-      stitchFunction(result,this.pop())
+      result = stitchFunction(result,this.pop())
     }
     return result
   }

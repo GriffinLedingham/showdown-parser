@@ -82,4 +82,6 @@ module.exports = function(dataA, dataB) {
       dataA[key] = dataB[key]
     }
   }
+
+  return dataA
 }
