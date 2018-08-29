@@ -15,6 +15,7 @@ const readLogs          = require('../readLogs')
 const mergePokemonData  = require('../mergePokemonData')
 const compileData       = require('../compileData')
 const formatData        = require('../formatData')
+const formatJSON        = require('../formatJSON')
 
 const threads           = AppConfig.threads
 
@@ -88,7 +89,7 @@ module.exports = function(format, date, cutoff, output, cluster) {
           WriteData.formatted(format,date,cutoff,formatData(compiledData, rawData))
           break;
         case 'json':
-          WriteData.json(format,date,cutoff,formatJSON(compiledData, rawData))
+          WriteData.JSON(format,date,cutoff,formatJSON(compiledData, rawData))
           break;
       }
 

@@ -12,6 +12,7 @@ const config          = require('./config')
 const utils           = require('./utils')
 
 global.Dex            = require('../Pokemon-Showdown/sim/dex')
+global.Pokedex        = require('../Pokemon-Showdown/data/pokedex.js')
 
 const WriteData       = require('./routines/writeData')
 const LoadData        = require('./routines/loadData')
@@ -56,7 +57,16 @@ if(skipLogs) {
   // will get master status, and spawn workers for each core the
   // app is being provided.
   if (cluster.isMaster) {
-    MatchupProcessor.doMasterThread(format,date,cutoff,cluster)
+    MatchupProcessor.doMasterThread(format,date,cutoff,'pairs',cluster)
+  } else {
+    MatchupProcessor.doWorkerThread(cluster)
+  }
+} else if(output == 'teams') {
+  // Main threading split occurs here. The initial running thread
+  // will get master status, and spawn workers for each core the
+  // app is being provided.
+  if (cluster.isMaster) {
+    MatchupProcessor.doMasterThread(format,date,cutoff,'team',cluster)
   } else {
     MatchupProcessor.doWorkerThread(cluster)
   }

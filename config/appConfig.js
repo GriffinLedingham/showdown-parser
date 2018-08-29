@@ -3,7 +3,16 @@ module.exports = {
   threads: 20,
 
   // The list of valid days in a month
-  days: /*['01','02','03','04','05','06','07','08']['09','10','11','12','13','14','15','16','17','18']['19','20','21','22','23','24','25','26','27','28'*/['29','30','31'],
+//  days: ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'],
+  // days: ['01','02','03','04'],
+  // days: ['05','06','07','08'],
+  // days: ['09','10','11','12'],
+  // days: ['13','14','15','16'],
+  // days: ['17','18','19','20'],
+  // days: ['21','22','23','24'],
+   days: ['26','27','28','29'],
+  //days: ['25','26','27','28'],
+  // days: ['29','30','31'],
 
   // The directory that holds the logs
   baseFilePath: '../../Downloads/',
@@ -19,6 +28,9 @@ module.exports = {
 
   // The directory to store matchup data
   matchupDataDir: 'matchup/',
+
+  // The directory to store top team data
+  topTeamsDataDir: 'topTeams/',
 
   // The directory to store the formatted JSON data
   JSONDataDir: 'json/'

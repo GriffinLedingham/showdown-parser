@@ -1,6 +1,6 @@
 /**
  *
- * processMatchup
+ * processTopTeams
  *
  * Iterate over provided team from a log file. This
  * function is called from a MatchupProcessor worker,
@@ -53,35 +53,38 @@ module.exports = function(logData, workerData, cutoff, outcome) {
     team2Arr.push(Pokedex.BattlePokedex[teamp2[i]['species'].toLowerCase().replace(/\-|\s/g,'')].num)
   }
 
-  let team1Comb = getCombinations(team1Arr,3)
-  let team2Comb = getCombinations(team2Arr,3)
-
   let p1outcome = (outcome == 'p1')?1:(outcome == 'p2')?0:-1
   let p2outcome = (outcome == 'p2')?1:(outcome == 'p1')?0:-1
 
-  for(let key in team1Comb) {
-    team1Comb[key].sort()
-    for(let key2 in team2Comb) {
-      team2Comb[key2].sort()
-      workerData.push({
-        a1:team1Comb[key][0],
-        a2:team1Comb[key][1],
-        a3:team1Comb[key][2],
-        d1:team2Comb[key2][0],
-        d2:team2Comb[key2][1],
-        d3:team2Comb[key2][2],
-        o: p1outcome
-      })
-      workerData.push({
-        a1:team2Comb[key2][0],
-        a2:team2Comb[key2][1],
-        a3:team2Comb[key2][2],
-        d1:team1Comb[key][0],
-        d2:team1Comb[key][1],
-        d3:team1Comb[key][2],
-        o: p2outcome
-      })
+  let team1Str = ''
+  let team2Str = ''
+  team1Arr.sort()
+  team2Arr.sort()
+  for(let key in team1Arr) {
+    team1Str += team1Arr[key] + '|'
+  }
+  for(let key in team2Arr) {
+    team2Str += team2Arr[key] + '|'
+  }
+
+  if(workerData[team1Str] == undefined) {
+    workerData[team1Str] = {
+      wins: p1outcome,
+      total: 1
     }
+  } else {
+    workerData[team1Str].wins += p1outcome
+    workerData[team1Str].total += 1
+  }
+
+  if(workerData[team2Str] == undefined) {
+    workerData[team2Str] = {
+      wins: p2outcome,
+      total: 1
+    }
+  } else {
+    workerData[team2Str].wins += p2outcome
+    workerData[team2Str].total += 1
   }
 }
 

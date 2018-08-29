@@ -43,5 +43,11 @@ module.exports = {
       fs.mkdirSync(`${AppConfig.matchupDataDir}`)
     }
     jsonfile.writeFileSync(`${AppConfig.matchupDataDir}matchup-${cutoff}-${Date.now()}.json`, data)
+  },
+  topTeams: function(format,date,cutoff,data) {
+    if(!fs.existsSync(`${AppConfig.matchupDataDir}`)) {
+      fs.mkdirSync(`${AppConfig.matchupDataDir}`)
+    }
+    jsonfile.writeFileSync(`${AppConfig.topTeamsDataDir}topteam-${format}-${date}-${cutoff}.json`, data)
   }
 }

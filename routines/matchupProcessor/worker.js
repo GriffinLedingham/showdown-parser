@@ -12,6 +12,7 @@
 
 const path              = require('path')
 const processMatchup    = require('../processMatchup')
+const processTopTeams   = require('../processTopTeams')
 const WriteData         = require('../writeData')
 
 module.exports = function() {
@@ -22,6 +23,9 @@ module.exports = function() {
 
   // Handle message from master thread
   process.on('message', function(data) {
+    if(data.report == 'team')
+      workerData = {}
+
     data.filenames.forEach((filename) => {
       // Increment processed document count
       documentsProcessed++
@@ -44,13 +48,35 @@ module.exports = function() {
         outcome = 'tie'
       }
 
-      processMatchup(logData, workerData, data.cutoff, outcome)
+      if(data.report == 'pairs') {
+        processMatchup(logData, workerData, data.cutoff, outcome)
+      } else if(data.report == 'team') {
+        processTopTeams(logData, workerData, data.cutoff, outcome)
+      }
+
+      // logData['log'] = undefined
+      // logData['p1'] = undefined
+      // logData['p2'] = undefined
+      // logData['p1rating'] = undefined
+      // logData['p2rating'] = undefined
+      // logData['p1team'] = undefined
+      // logData['p2team'] = undefined
+      // delete logData['log']
+      // delete logData['p1']
+      // delete logData['p2']
+      // delete logData['p1rating']
+      // delete logData['p2rating']
+      // delete logData['p1team']
+      // delete logData['p2team']
+      //
+      // logData = undefined
+      // delete logData
+      //
+      // global.gc()
 
       // If this worker has completed all documents, exit
       if(data.filenames.length == documentsProcessed) {
-        WriteData.matchup(data.cutoff,workerData)
-        workerData = []
-        process.send({txn:true})
+        process.send({txn:true,workerData:workerData})
       }
     })
   })

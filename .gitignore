@@ -5,3 +5,5 @@ raw/
 package-lock.json
 formatted/
 json/
+matchup/
+topTeams/
