@@ -32,6 +32,13 @@ module.exports = {
     }
     fs.writeFileSync(`${AppConfig.formattedDataDir}${format}-${date}-${cutoff}-formatted.txt`, string)
   },
+  usage: function(format,date,cutoff,string) {
+    console.log('-----')
+    if(!fs.existsSync(`${AppConfig.usageDataDir}`)) {
+      fs.mkdirSync(`${AppConfig.usageDataDir}`)
+    }
+    fs.writeFileSync(`${AppConfig.usageDataDir}${format}-${date}-${cutoff}-usage.txt`, string)
+  },
   JSON: function(format,date,cutoff,data) {
     if(!fs.existsSync(`${AppConfig.formattedDataDir}`)) {
       fs.mkdirSync(`${AppConfig.formattedDataDir}`)

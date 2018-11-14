@@ -18,6 +18,7 @@ const LoadData        = require('./routines/loadData')
 const LogProcessor    = require('./routines/logProcessor')
 
 const formatData      = require('./routines/formatData')
+const formatUsage     = require('./routines/formatUsage')
 const formatJSON      = require('./routines/formatJSON')
 const [format, date, cutoff, output, skipLogs]  = args
 
@@ -32,6 +33,18 @@ if(skipLogs) {
         date,
         cutoff,
         formatData(
+          LoadData.compiled(format,date,cutoff),
+          LoadData.raw(format,date,cutoff)
+        )
+      )
+      break
+    case 'ranking':
+      // Write formatted data to .txt
+      WriteData.usage(
+        format,
+        date,
+        cutoff,
+        formatUsage(
           LoadData.compiled(format,date,cutoff),
           LoadData.raw(format,date,cutoff)
         )
