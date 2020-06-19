@@ -11,7 +11,7 @@
 
 // This expects Pokemon-Showdown to be cloned at the directory below
 // https://github.com/Zarel/Pokemon-Showdown
-const Dex = require('../../../Pokemon-Showdown/sim/dex')
+const Dex = require('@pkmn/dex').Dex
 
 module.exports = function(compiledData,rawData) {
   let count = 0

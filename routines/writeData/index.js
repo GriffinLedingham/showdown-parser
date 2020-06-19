@@ -40,8 +40,8 @@ module.exports = {
     fs.writeFileSync(`${AppConfig.usageDataDir}${format}-${date}-${cutoff}-usage.txt`, string)
   },
   JSON: function(format,date,cutoff,data) {
-    if(!fs.existsSync(`${AppConfig.formattedDataDir}`)) {
-      fs.mkdirSync(`${AppConfig.formattedDataDir}`)
+    if(!fs.existsSync(`${AppConfig.JSONDataDir}`)) {
+      fs.mkdirSync(`${AppConfig.JSONDataDir}`)
     }
     jsonfile.writeFileSync(`${AppConfig.JSONDataDir}${format}-${date}-${cutoff}-json.json`, data)
   }
