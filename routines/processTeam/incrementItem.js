@@ -9,9 +9,9 @@
 
 module.exports = function(item, pokemonData, weight) {
   // Disable for replay parsing
-  // if(pokemonData['item'][item] != undefined) {
-  //   pokemonData['item'][item] += weight
-  // } else {
-  //   pokemonData['item'][item] = 1*weight
-  // }
+  if(pokemonData['item'][item] != undefined) {
+    pokemonData['item'][item] += weight
+  } else {
+    pokemonData['item'][item] = 1*weight
+  }
 }
