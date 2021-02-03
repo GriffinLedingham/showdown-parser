@@ -13,7 +13,7 @@ const days    = AppConfig.days
 const fs      = require('fs')
 
 module.exports = function(format, date) {
-  let filePath = `${AppConfig.baseFilePath}${format}-${date}/${date}-`
+  let filePath = `${AppConfig.baseFilePath}${date}/${format}/${date}-`
   let allFiles = []
 
   for(let y in days) {
