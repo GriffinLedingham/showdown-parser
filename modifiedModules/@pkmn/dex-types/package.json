@@ -1,0 +1,54 @@
+{
+  "_from": "@pkmn/dex-types@^0.0.8",
+  "_id": "@pkmn/dex-types@0.0.8",
+  "_inBundle": false,
+  "_integrity": "sha512-TnhPyoGXbVKmXMOcYowIdlI8X29nmey6rYEx8wQ+/JZDiNw1E0pizP5VVsLgWxDxpvoGDOmcfRcfPd5mNDgkhg==",
+  "_location": "/@pkmn/dex-types",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@pkmn/dex-types@^0.0.8",
+    "name": "@pkmn/dex-types",
+    "escapedName": "@pkmn%2fdex-types",
+    "scope": "@pkmn",
+    "rawSpec": "^0.0.8",
+    "saveSpec": null,
+    "fetchSpec": "^0.0.8"
+  },
+  "_requiredBy": [
+    "/@pkmn/dex"
+  ],
+  "_resolved": "https://registry.npmjs.org/@pkmn/dex-types/-/dex-types-0.0.8.tgz",
+  "_shasum": "9ac2f3867697dd60dde9571d02c1cf08d3ab5be4",
+  "_spec": "@pkmn/dex-types@^0.0.8",
+  "_where": "/Users/griff/Git/showdown-parser/node_modules/@pkmn/dex",
+  "bugs": {
+    "url": "https://github.com/pkmn/ps/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@pkmn/types": "^0.1.0"
+  },
+  "deprecated": false,
+  "description": "Common Pokémon Showdown Dex types shared by @pkmn/dex and @pkmn/sim",
+  "homepage": "https://github.com/pkmn/ps#readme",
+  "license": "MIT",
+  "name": "@pkmn/dex-types",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pkmn/ps.git"
+  },
+  "scripts": {
+    "build": "npm run compile",
+    "compile": "tsc -p .",
+    "fix": "eslint --fix --ext ts",
+    "lint": "eslint --cache --ext ts",
+    "test": "npm run compile"
+  },
+  "types": "index.d.ts",
+  "version": "0.0.8"
+}

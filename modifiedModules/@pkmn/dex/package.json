@@ -1,0 +1,58 @@
+{
+  "_from": "@pkmn/dex@0.0.8",
+  "_id": "@pkmn/dex@0.0.8",
+  "_inBundle": false,
+  "_integrity": "sha512-DkL+BNgXzTUXrU02AZwXX4+nOlYHZV24sMLVX73/raob7RpAa6IKkzDa/87h6Od+qTBADlZTL1CF2+u2rDSq/w==",
+  "_location": "/@pkmn/dex",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@pkmn/dex@0.0.8",
+    "name": "@pkmn/dex",
+    "escapedName": "@pkmn%2fdex",
+    "scope": "@pkmn",
+    "rawSpec": "0.0.8",
+    "saveSpec": null,
+    "fetchSpec": "0.0.8"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@pkmn/dex/-/dex-0.0.8.tgz",
+  "_shasum": "ddec690a90ce1a2ebddf965352b640449c0051c1",
+  "_spec": "@pkmn/dex@0.0.8",
+  "_where": "/Users/griff/Git/showdown-parser",
+  "bugs": {
+    "url": "https://github.com/pkmn/ps/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@pkmn/dex-types": "^0.0.8"
+  },
+  "deprecated": false,
+  "description": "A unification of Pokémon Showdown's client's and server's data layers",
+  "homepage": "https://github.com/pkmn/ps#readme",
+  "license": "MIT",
+  "main": "build/index.js",
+  "name": "@pkmn/dex",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pkmn/ps.git"
+  },
+  "scripts": {
+    "build": "npm run compile && npm run bundle",
+    "bundle": "node bundle",
+    "compile": "tsc -p .",
+    "fix": "eslint --fix --ext ts",
+    "lint": "eslint --cache --ext ts",
+    "posttest": "npm run lint",
+    "pretest": "npm run build",
+    "test": "jest"
+  },
+  "types": "build/index.d.ts",
+  "version": "0.0.8"
+}

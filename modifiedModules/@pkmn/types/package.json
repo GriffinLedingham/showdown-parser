@@ -1,0 +1,54 @@
+{
+  "_from": "@pkmn/types@^0.1.0",
+  "_id": "@pkmn/types@0.1.0",
+  "_inBundle": false,
+  "_integrity": "sha512-GKEf4jKjq2tMZ9KjTagW/stO5LSl9ruNPmUfxGeUUqLcyQcRDimNHKEvrscTBSItgts25JNpK30FBva7Rft4yg==",
+  "_location": "/@pkmn/types",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@pkmn/types@^0.1.0",
+    "name": "@pkmn/types",
+    "escapedName": "@pkmn%2ftypes",
+    "scope": "@pkmn",
+    "rawSpec": "^0.1.0",
+    "saveSpec": null,
+    "fetchSpec": "^0.1.0"
+  },
+  "_requiredBy": [
+    "/@pkmn/dex-types"
+  ],
+  "_resolved": "https://registry.npmjs.org/@pkmn/types/-/types-0.1.0.tgz",
+  "_shasum": "aa1563d3f9fa8ceb477ea26cef2309ea7d2f6014",
+  "_spec": "@pkmn/types@^0.1.0",
+  "_where": "/Users/griff/Git/showdown-parser/node_modules/@pkmn/dex-types",
+  "author": {
+    "name": "Kirk Scheibelhut",
+    "email": "pre@pkmn.cc"
+  },
+  "bugs": {
+    "url": "https://github.com/pkmn/ps/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Type definitions common across Pokemon Showdown",
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  },
+  "homepage": "https://github.com/pkmn/ps#readme",
+  "license": "MIT",
+  "name": "@pkmn/types",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pkmn/ps.git"
+  },
+  "scripts": {
+    "build": "npm run compile",
+    "compile": "tsc -p .",
+    "prepare": "npm run build",
+    "test": "npm run build"
+  },
+  "types": "index.d.ts",
+  "version": "0.1.0"
+}

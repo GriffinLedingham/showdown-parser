@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+'use strict';
+
+const Bundler = require('../bundler');
+const bundler = new Bundler(__dirname);
+
+const DATA = [
+  ['Abilities', 'abilities'],
+  ['Aliases', 'aliases'],
+  ['Items', 'items'],
+  ['Moves', 'moves'],
+  ['Species', 'species'],
+  ['FormatsData', 'formats-data'],
+  ['Types', 'types'],
+];
+
+let bundled = `(() => {
+'use strict';
+const exports = {};
+`;
+for (const [name, file] of DATA) {
+  bundled += `const ${name}JSON = ${bundler.read(`data/${file}.json`)};\n`;
+}
+bundled += bundler.read('index.js', 29, 1);
+bundled += `
+// EXPORTS
+window.Dex = exports.Dex;
+})();`
+bundler.bundle(bundled);
