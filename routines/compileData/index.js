@@ -60,6 +60,7 @@ module.exports = function(rawData,teamCount) {
     for(let key in pokemonItem['team']) {
       let origKey = key
       key = pokemonForm(Dex.getSpecies(key))
+      if(rawData[key] == undefined) continue
       pokemonItem['team'][key] = (
         (100*(
           pokemonItem['team'][origKey]/pokemonItem['count']

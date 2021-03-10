@@ -35,6 +35,5 @@ module.exports = {
     '-Hoenn',
     '-Dusk-Mane',
     '-Sinnoh',
-    '-Sun',
-    '-Galar']
+    '-Sun']
 }

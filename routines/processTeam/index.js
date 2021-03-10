@@ -28,6 +28,11 @@ module.exports = function(team, pokemonData, rating, cutoff, outcome) {
   for(let i = 0;i<team.length;i++) {
     let pokemonItem = team[i]
 
+    // Don't include Urshifu generic form
+    if(pokemonItem['species'].indexOf('-*') > -1) continue
+    // Don't include Silvally generic form
+    if(pokemonItem['species'].indexOf('*') > -1) continue
+
     // Lower case the species name, because there are multiple
     // versions of capitalization in the logs. Also call
     // pokemonForm on the name to strip form tags & squash data.
